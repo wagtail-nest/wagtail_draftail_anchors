@@ -1,0 +1,11 @@
+README.md
+setup.py
+wagtail_draftail_anchors/__init__.py
+wagtail_draftail_anchors/apps.py
+wagtail_draftail_anchors/rich_text.py
+wagtail_draftail_anchors/wagtail_hooks.py
+wagtail_draftail_anchors.egg-info/PKG-INFO
+wagtail_draftail_anchors.egg-info/SOURCES.txt
+wagtail_draftail_anchors.egg-info/dependency_links.txt
+wagtail_draftail_anchors.egg-info/requires.txt
+wagtail_draftail_anchors.egg-info/top_level.txt

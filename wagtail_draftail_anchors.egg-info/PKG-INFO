@@ -1,0 +1,17 @@
+Metadata-Version: 2.1
+Name: wagtail-draftail-anchors
+Version: 0.0.1
+Summary: A Draftail extension to add anchor identifiers to rich text
+Home-page: TODO
+Author: TODO
+Author-email: TODO
+License: UNKNOWN
+Description: # Wagtail Draftail Anchors
+        
+        TODO
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown

@@ -40,7 +40,7 @@ def insert_editor_js_anchor():
     js_files = [
         # We require this file here to make sure it is loaded before the other.
         'wagtailadmin/js/draftail.js',
-        'js/wagtail_draftail_anchor.js',
+        'js/wagtail-draftail-anchor.js',
     ]
     js_includes = format_html_join('\n', '<script src="{0}{1}"></script>',
         ((settings.STATIC_URL, filename) for filename in js_files)

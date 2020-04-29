@@ -43,7 +43,7 @@ class AnchorIdentifierSource extends React.Component {
 
 const getAnchorIdentifierAttributes = (data) => {
     const url = data.fragment || null;
-    let icon = <Icon name="link" />;
+    let icon = <Icon name="anchor" />;
     let label = `#${url}`;
   
     return {

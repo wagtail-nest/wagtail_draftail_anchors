@@ -1,0 +1,12 @@
+@font-face {
+    font-family: 'wagtail-draftail-anchor';
+    src: url('../fonts/wagtail-draftail-anchor.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+.icon-anchor:before {
+    font-family: 'wagtail-draftail-anchor';
+    content: "\f13d";
+}

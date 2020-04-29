@@ -20,14 +20,16 @@ def register_rich_text_anchor_identifier_feature(features):
 
     control = {
         'type': type_,
-        'label': '<#id>',
+        'label': '',
+        'icon': 'icon icon-anchor',
         'description': 'Anchor Identifier',
     }
 
     features.register_editor_plugin(
         'draftail', feature_name, draftail_features.EntityFeature(
             control,
-            js=['js/wagtail-draftail-anchor.js']
+            js=['js/wagtail-draftail-anchor.js'],
+            css={'all': ['css/wagtail-draftail-anchor.css']}
             )
     )
 

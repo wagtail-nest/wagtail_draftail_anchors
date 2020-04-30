@@ -39,3 +39,34 @@ def register_rich_text_anchor_identifier_feature(features):
         'from_database_format': {'a[data-id]': AnchorIndentifierEntityElementHandler(type_)},
         'to_database_format': {'entity_decorators': {type_: anchor_identifier_entity_decorator}},
     })
+
+"""
+@hooks.register('register_rich_text_features')
+def register_rich_text_heading_anchor_identifier_feature(features):
+    features.default_features.append('heading-anchor-identifier')
+    
+    feature_name = 'anchor-identifier'
+    type_ = 'header-two'
+
+    control = {
+        'type': type_,
+        'label': 'H2',
+        'icon': 'icon icon-anchor',
+        'description': 'H2 Anchor Identifier',
+    }
+
+    features.register_editor_plugin(
+        'draftail', feature_name, draftail_features.EntityFeature(
+            control,
+            js=['js/wagtail-draftail-anchor.js'],
+            css={'all': ['css/wagtail-draftail-anchor.css']}
+            )
+    )
+
+    features.register_converter_rule('contentstate', feature_name, {
+        # Note here that the conversion is more complicated than for blocks and inline styles.
+        # 'from_database_format': {'a[data-anchor][id]': AnchorIndentifierEntityElementHandler(type_)},
+        'from_database_format': {'h2[fragment]': H2AnchorIndentifierHandler(type_)},
+        'to_database_format': {'entity_decorators': {type_: anchor_identifier_entity_decorator}},
+    })
+"""

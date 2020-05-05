@@ -5,4 +5,4 @@ Adds the ability to add and edit anchors in the Draftail rich text editor, as we
 
 ## Installation
 
-Add to `INSTALLED_APPS` below `wagtail.admin`.
+Add `'wagtail_draftail_anchors'` to `INSTALLED_APPS` below `wagtail.admin`.

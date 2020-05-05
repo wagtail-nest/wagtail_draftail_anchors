@@ -28,8 +28,8 @@ def register_rich_text_anchor_identifier_feature(features):
     features.register_editor_plugin(
         'draftail', feature_name, draftail_features.EntityFeature(
             control,
-            js=['js/wagtail-draftail-anchor.js'],
-            css={'all': ['css/wagtail-draftail-anchor.css']}
+            js=['wagtaildraftailanchors/js/wagtail-draftail-anchor.js'],
+            css={'all': ['wagtaildraftailanchors/css/wagtail-draftail-anchor.css']}
             )
     )
 

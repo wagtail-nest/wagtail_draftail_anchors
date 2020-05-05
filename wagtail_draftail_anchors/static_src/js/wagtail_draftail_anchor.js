@@ -1,16 +1,19 @@
 const React = window.React;
 const RichUtils = window.DraftJS.RichUtils;
+const Modifier = window.DraftJS.Modifier;
+const SelectionState = window.DraftJS.SelectionState;
 const TooltipEntity = window.draftail.TooltipEntity;
 const Icon = window.wagtail.components.Icon;
 const EditorState = window.DraftJS.EditorState;
 const Portal = window.wagtail.components.Portal;
 const Tooltip = window.draftail.Tooltip;
-const slugify = require('slugify')
+import slugify from 'slugify';
 
 // Implement the new APIs.
 
 const DECORATORS = [];
 const CONTROLS = [];
+const DRAFT_PLUGINS = [];
 
 const registerDecorator = (decorator) => {
     DECORATORS.push(decorator);
@@ -22,6 +25,11 @@ const registerControl = (control) => {
     return CONTROLS;
 };
 
+const registerDraftPlugin = (plugin) => {
+    DRAFT_PLUGINS.push(plugin);
+    return DRAFT_PLUGINS;
+};
+
 // Override the existing initEditor to hook the new APIs into it.
 // This works in Wagtail 2.0 but will definitely break in a future release.
 const initEditor = window.draftail.initEditor;
@@ -30,6 +38,7 @@ const initEditorOverride = (selector, options, currentScript) => {
     const overrides = {
         decorators: DECORATORS,
         controls: CONTROLS,
+        plugins: DRAFT_PLUGINS,
     };
 
     const newOptions = Object.assign({}, options, overrides);
@@ -109,7 +118,7 @@ window.draftail.registerPlugin({
     decorator: AnchorIdentifier,
 });
 
-class BasicTooltipDecorator extends React.Component {
+class UneditableAnchorDecorator extends React.Component {
     constructor(props) {
       super(props);
   
@@ -151,7 +160,6 @@ class BasicTooltipDecorator extends React.Component {
     render() {
       const children = this.props.children;
       const fragment = `#${slugify(this.props.decoratedText)}`;
-      const icon = "icon-anchor";
       const { showTooltipAt } = this.state;
   
       // Contrary to what JSX A11Y says, this should be a button but it shouldn't be focusable.
@@ -166,7 +174,7 @@ class BasicTooltipDecorator extends React.Component {
           className="TooltipEntity"
           data-draftail-trigger
         >
-          <Icon icon={icon} className="TooltipEntity__icon" />
+          <sub><Icon name="anchor" className="TooltipEntity__icon" /></sub>
           {children}
           {showTooltipAt && (
             <Portal
@@ -186,52 +194,44 @@ class BasicTooltipDecorator extends React.Component {
     }
   };
 
-// Note: these aren't very good regexes, don't use them!
-const HANDLE_REGEX = /\@[\w]+/g;
-const HASHTAG_REGEX = /\#[\w\u0590-\u05ff]+/g;
-function handleStrategy(contentBlock, callback, contentState) {
-  findWithRegex(HANDLE_REGEX, contentBlock, callback);
-}
-function hashtagStrategy(contentBlock, callback, contentState) {
-  findWithRegex(HASHTAG_REGEX, contentBlock, callback);
-}
-function findWithRegex(regex, contentBlock, callback) {
-  const text = contentBlock.getText();
-  let matchArr, start;
-  while ((matchArr = regex.exec(text)) !== null) {
-    start = matchArr.index;
-    callback(start, start + matchArr[0].length);
-  }
-}
-
-const HashtagSpan = props => {
-    return (
-      <span style={{ color: "#007d7e" }}>
-        {props.children}
-      </span>
-    );
-  };
-
 function headingStrategy(contentBlock, callback, contentState) {
-    if (contentBlock.getType() == 'header-two') {
+    if (contentBlock.getType().includes("header")) {
         callback(0, contentBlock.getLength());
     };
   }
 
-const HeadingTest = props => {
-    return (
-      <span style={{ color: "#007d7e" }}>
-        {props.children}
-      </span>
-    );
-  };
-
-registerDecorator({
-    strategy: hashtagStrategy,
-    component: HashtagSpan,
-  });
-
-registerDecorator({
-    strategy: headingStrategy,
-    component: BasicTooltipDecorator,
-  });
+registerDraftPlugin({
+    decorators: [
+      {
+        strategy: headingStrategy,
+        component: UneditableAnchorDecorator,
+      },
+    ],
+    onChange: (editorState, PluginFunctions) => {
+        // if content has been modified, update all heading blocks's data with
+        // a slugified version of their contents as 'fragment', for use
+        // in generating anchor links consistently with their displayed form
+        let content = editorState.getCurrentContent()
+        if (content == PluginFunctions.getEditorState().getCurrentContent()) {
+            return editorState
+        }
+        const blocks = content.getBlockMap()
+        const selection = editorState.getSelection()
+        let newEditorState = editorState
+        for (let [key, block] of blocks.entries()) {
+            if (block.getType().includes("header")) {
+                let blockSelection = SelectionState.createEmpty(key);
+                let newData = new Map();
+                newData.set('fragment', slugify(block.getText()));
+                content = Modifier.mergeBlockData(
+                    content,
+                    blockSelection,
+                    newData
+                  );
+                newEditorState = EditorState.push(editorState, content, 'change-block-data');
+                }
+            }
+        newEditorState = EditorState.acceptSelection(newEditorState, selection);
+        return newEditorState
+    }
+  })

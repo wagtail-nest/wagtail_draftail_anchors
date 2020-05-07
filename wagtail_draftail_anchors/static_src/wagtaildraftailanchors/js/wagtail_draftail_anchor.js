@@ -57,15 +57,15 @@ class AnchorIdentifierSource extends React.Component {
 
         const content = editorState.getCurrentContent();
 
-        const fragment = window.prompt('Fragment identifier:');
+        const anchor = window.prompt('Anchor identifier:');
 
         // Uses the Draft.js API to create a new entity with the right data.
-        if (fragment) {
+        if (anchor) {
             const contentWithEntity = content.createEntity(
                 entityType.type,
                 'MUTABLE',
                 {
-                    fragment: fragment,
+                    anchor: anchor,
                 },
             );
             const entityKey = contentWithEntity.getLastCreatedEntityKey();
@@ -88,7 +88,7 @@ class AnchorIdentifierSource extends React.Component {
 }
 
 const getAnchorIdentifierAttributes = (data) => {
-    const url = data.fragment || null;
+    const url = data.anchor || null;
     let icon = <Icon name="anchor" />;
     let label = `#${url}`;
   
@@ -159,7 +159,7 @@ class UneditableAnchorDecorator extends React.Component {
   
     render() {
       const children = this.props.children;
-      const fragment = `#${slugify(this.props.decoratedText)}`;
+      const anchor = `#${slugify(this.props.decoratedText)}`;
       const { showTooltipAt } = this.state;
   
       // Contrary to what JSX A11Y says, this should be a button but it shouldn't be focusable.
@@ -167,7 +167,7 @@ class UneditableAnchorDecorator extends React.Component {
       return (
         <a
           href=''
-          name={fragment}
+          name={anchor}
           role="button"
           // Use onMouseUp to preserve focus in the text even after clicking.
           onMouseUp={this.openTooltip}
@@ -185,7 +185,7 @@ class UneditableAnchorDecorator extends React.Component {
               closeOnResize
             >
               <Tooltip target={showTooltipAt} direction="top">
-                {fragment}
+                {anchor}
               </Tooltip>
             </Portal>
           )}
@@ -209,7 +209,7 @@ registerDraftPlugin({
     ],
     onChange: (editorState, PluginFunctions) => {
         // if content has been modified, update all heading blocks's data with
-        // a slugified version of their contents as 'fragment', for use
+        // a slugified version of their contents as 'anchor', for use
         // in generating anchor links consistently with their displayed form
         let content = editorState.getCurrentContent()
         if (content == PluginFunctions.getEditorState().getCurrentContent()) {
@@ -222,7 +222,7 @@ registerDraftPlugin({
             if (block.getType().includes("header")) {
                 let blockSelection = SelectionState.createEmpty(key);
                 let newData = new Map();
-                newData.set('fragment', slugify(block.getText()));
+                newData.set('anchor', slugify(block.getText()));
                 content = Modifier.mergeBlockData(
                     content,
                     blockSelection,

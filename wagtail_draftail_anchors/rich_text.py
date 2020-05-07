@@ -65,4 +65,4 @@ class DataBlock(Block):
 class FragmentBlockHandler(BlockElementHandler):
     """HTML to Draft.js ContentState for anchor blocks with a fragment"""
     def create_block(self, name, attrs, state, contentstate):
-        return DataBlock(self.block_type, depth=state.list_depth, data={'fragment': attrs.pop('id')})
+        return DataBlock(self.block_type, depth=state.list_depth, data={'fragment': attrs.get('id', '')})

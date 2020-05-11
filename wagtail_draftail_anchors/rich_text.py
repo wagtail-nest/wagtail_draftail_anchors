@@ -33,7 +33,7 @@ class AnchorIndentifierEntityElementHandler(InlineEntityElementHandler):
         }
 
 
-class anchorBlockConverter:
+class AnchorBlockConverter:
     """
     Draft.js ContentState to database HTML.
     Converts the anchors in block data to html ids.
@@ -62,7 +62,7 @@ class DataBlock(Block):
         return dict(data=self.data, **super().as_dict())
 
 
-class anchorBlockHandler(BlockElementHandler):
+class AnchorBlockHandler(BlockElementHandler):
     """HTML to Draft.js ContentState for anchor blocks with a anchor"""
     def create_block(self, name, attrs, state, contentstate):
         return DataBlock(self.block_type, depth=state.list_depth, data={'anchor': attrs.get('id', '')})

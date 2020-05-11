@@ -9,9 +9,9 @@ def anchor_identifier_entity_decorator(props):
     Converts the ANCHOR entities into <a> tags.
     """
     return DOM.create_element('a', {
-        'data-id':props['fragment'].lstrip('#'),
-        'id':props['fragment'].lstrip('#'),
-        'href': '#{}'.format(props['fragment'].lstrip('#')),
+        'data-id':props['anchor'].lstrip('#'),
+        'id':props['anchor'].lstrip('#'),
+        'href': '#{}'.format(props['anchor'].lstrip('#')),
     }, props['children'])
 
 
@@ -25,18 +25,18 @@ class AnchorIndentifierEntityElementHandler(InlineEntityElementHandler):
 
     def get_attribute_data(self, attrs):
         """
-        Take the ``fragment`` value from the ``href`` HTML attribute.
+        Take the ``anchor`` value from the ``href`` HTML attribute.
         """
         return {
-            'fragment': attrs['href'].lstrip('#'),
+            'anchor': attrs['href'].lstrip('#'),
             'data-id': attrs['id'],
         }
 
 
-class FragmentBlockConverter:
+class anchorBlockConverter:
     """
     Draft.js ContentState to database HTML.
-    Converts the fragments in block data to html ids.
+    Converts the anchors in block data to html ids.
     """
     def __init__(self, tag):
         self.tag = tag
@@ -46,7 +46,7 @@ class FragmentBlockConverter:
 
         # Here, we want to display the block's content so we pass the `children` prop as the last parameter.
         return DOM.create_element(self.tag, {
-            'id': block_data.get('fragment')
+            'id': block_data.get('anchor')
             }, props['children'])
 
 
@@ -62,7 +62,7 @@ class DataBlock(Block):
         return dict(data=self.data, **super().as_dict())
 
 
-class FragmentBlockHandler(BlockElementHandler):
-    """HTML to Draft.js ContentState for anchor blocks with a fragment"""
+class anchorBlockHandler(BlockElementHandler):
+    """HTML to Draft.js ContentState for anchor blocks with a anchor"""
     def create_block(self, name, attrs, state, contentstate):
-        return DataBlock(self.block_type, depth=state.list_depth, data={'fragment': attrs.get('id', '')})
+        return DataBlock(self.block_type, depth=state.list_depth, data={'anchor': attrs.get('id', '')})

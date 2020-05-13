@@ -1,11 +1,15 @@
-from django.utils.html import format_html_join
 from django.conf import settings
 
 import wagtail.admin.rich_text.editors.draftail.features as draftail_features
-from wagtail.admin.rich_text.converters.html_to_contentstate import InlineStyleElementHandler, BlockElementHandler
+from wagtail.admin.rich_text.converters.html_to_contentstate import (
+    BlockElementHandler, InlineStyleElementHandler)
 from wagtail.core import hooks
 
-from .rich_text import AnchorIndentifierEntityElementHandler, anchor_identifier_entity_decorator, AnchorBlockConverter, AnchorBlockHandler
+from .rich_text import (AnchorBlockConverter, AnchorBlockHandler,
+                        AnchorIndentifierEntityElementHandler,
+                        anchor_identifier_entity_decorator)
+
+from django.utils.html import format_html_join
 
 
 @hooks.register('register_rich_text_features')

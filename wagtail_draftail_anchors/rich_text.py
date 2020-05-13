@@ -1,6 +1,8 @@
 from draftjs_exporter.dom import DOM
-from wagtail.admin.rich_text.converters.contentstate_models import Block 
-from wagtail.admin.rich_text.converters.html_to_contentstate import InlineEntityElementHandler, BlockElementHandler
+
+from wagtail.admin.rich_text.converters.contentstate_models import Block
+from wagtail.admin.rich_text.converters.html_to_contentstate import (
+    BlockElementHandler, InlineEntityElementHandler)
 
 
 def anchor_identifier_entity_decorator(props):

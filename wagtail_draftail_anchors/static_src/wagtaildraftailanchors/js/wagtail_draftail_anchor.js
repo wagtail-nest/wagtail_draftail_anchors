@@ -57,7 +57,7 @@ class AnchorIdentifierSource extends React.Component {
 
         const content = editorState.getCurrentContent();
 
-        const anchor = window.prompt('Anchor identifier:');
+        const anchor = slugify(window.prompt('Anchor identifier:').toLowerCase());
 
         // Uses the Draft.js API to create a new entity with the right data.
         if (anchor) {
@@ -159,7 +159,7 @@ class UneditableAnchorDecorator extends React.Component {
   
     render() {
       const children = this.props.children;
-      const anchor = `#${slugify(this.props.decoratedText)}`;
+      const anchor = `#${slugify(this.props.decoratedText.toLowerCase())}`;
       const { showTooltipAt } = this.state;
   
       // Contrary to what JSX A11Y says, this should be a button but it shouldn't be focusable.
@@ -222,7 +222,7 @@ registerDraftPlugin({
             if (block.getType().includes("header")) {
                 let blockSelection = SelectionState.createEmpty(key);
                 let newData = new Map();
-                newData.set('anchor', slugify(block.getText()));
+                newData.set('anchor', slugify(block.getText().toLowerCase()));
                 content = Modifier.mergeBlockData(
                     content,
                     blockSelection,

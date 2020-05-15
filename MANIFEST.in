@@ -1,1 +1,3 @@
-recursive-include wagtail_draftail_anchors/static *
+recursive-include wagtail_draftail_anchors/static/wagtaildraftailanchors/css *
+recursive-include wagtail_draftail_anchors/static/wagtaildraftailanchors/fonts *
+recursive-include wagtail_draftail_anchors/static/wagtaildraftailanchors/js *

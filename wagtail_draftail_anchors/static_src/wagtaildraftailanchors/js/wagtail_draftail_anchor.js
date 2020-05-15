@@ -56,7 +56,7 @@ class AnchorIdentifierSource extends React.Component {
 
     const content = editorState.getCurrentContent();
 
-    const anchor = slugify(window.prompt("Anchor identifier:").toLowerCase());
+    const anchor = window.prompt("Anchor identifier:");
 
     // Uses the Draft.js API to create a new entity with the right data.
     if (anchor) {
@@ -64,7 +64,7 @@ class AnchorIdentifierSource extends React.Component {
         entityType.type,
         "MUTABLE",
         {
-          anchor: anchor,
+          anchor: slugify(anchor.toLowerCase()),
         }
       );
       const entityKey = contentWithEntity.getLastCreatedEntityKey();

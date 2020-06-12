@@ -17,6 +17,12 @@ from .rich_text import (
 from django.utils.html import format_html_join
 
 
+@hooks.register('register_icons')
+def register_icons(icons):
+    icons.append('wagtaildraftailanchors/icons/anchor.svg')
+    return icons
+
+
 @hooks.register("register_rich_text_features")
 def register_rich_text_anchor_identifier_feature(features):
     features.default_features.append("anchor-identifier")
@@ -30,7 +36,7 @@ def register_rich_text_anchor_identifier_feature(features):
     control = {
         "type": type_,
         "label": "",
-        "icon": "icon icon-anchor",
+        "icon": "anchor",
         "description": "Anchor Identifier",
     }
 
@@ -40,7 +46,6 @@ def register_rich_text_anchor_identifier_feature(features):
         draftail_features.EntityFeature(
             control,
             js=["wagtaildraftailanchors/js/wagtail-draftail-anchor.js"],
-            css={"all": ["wagtaildraftailanchors/css/wagtail-draftail-anchor.css"]},
         ),
     )
 

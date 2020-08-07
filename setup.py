@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="wagtail_draftail_anchors",
-    version="0.1.0",
+    version="0.2.0",
     author="Jacob Topp-Mugglestone, Quoc Duan",
     author_email="jacobtm@torchbox.com",
     description="A Draftail extension to add anchor identifiers to rich text",

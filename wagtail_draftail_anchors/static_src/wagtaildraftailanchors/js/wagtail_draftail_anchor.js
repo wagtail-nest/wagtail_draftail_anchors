@@ -221,13 +221,13 @@ registerDraftPlugin({
         let newData = new Map();
         newData.set("anchor", slugify(block.getText().toLowerCase()));
         content = Modifier.mergeBlockData(content, blockSelection, newData);
-        newEditorState = EditorState.push(
-          editorState,
-          content,
-          "change-block-data"
-        );
       }
     }
+    newEditorState = EditorState.push(
+      editorState,
+      content,
+      editorState.getLastChangeType()
+    );
     newEditorState = EditorState.acceptSelection(newEditorState, selection);
     return newEditorState;
   },

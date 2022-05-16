@@ -11,6 +11,6 @@ Install using `pip`:
 pip install wagtail-draftail-anchors
 ```
 
-Add `'wagtail_draftail_anchors'` to `INSTALLED_APPS` below `wagtail.admin`.
+Add `'wagtail_draftail_anchors'` to `INSTALLED_APPS` before `wagtail.admin`.
 
 Add `'anchor-identifier'` to the features of any rich text field where you have overridden the default feature list.

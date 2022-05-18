@@ -25,7 +25,7 @@ def register_icons(icons):
 
 @hooks.register("register_rich_text_features")
 def register_rich_text_anchor_identifier_feature(features):
-    features.default_features.append("anchor-identifier")
+    features.default_features.insert(0, "anchor-identifier")
     """
     Registering the `anchor-identifier` feature, which uses the `ANCHOR-IDENTIFIER` Draft.js entity type,
     and is stored as HTML with a `<a data-anchor href="#my-anchor" id="my-anchor">` tag.

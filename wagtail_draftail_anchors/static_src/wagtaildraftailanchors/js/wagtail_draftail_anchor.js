@@ -36,9 +36,9 @@ const initEditor = window.draftail.initEditor;
 
 const initEditorOverride = (selector, options, currentScript) => {
   const overrides = {
-    decorators: DECORATORS,
-    controls: CONTROLS,
-    plugins: DRAFT_PLUGINS,
+    decorators: DECORATORS.concat(options.decorators || []),
+    controls: CONTROLS.concat(options.controls || []),
+    plugins: DRAFT_PLUGINS.concat(options.plugins || []),
   };
 
   const newOptions = Object.assign({}, options, overrides);

@@ -1,0 +1,7 @@
+Changelog
+=========
+
+0.4 (24.05.2022)
+~~~~~~~~~~~~~~~~
+
+- Add Wagtail 3.0 compatibility - Tidiane Dia

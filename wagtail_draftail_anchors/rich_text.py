@@ -1,7 +1,6 @@
-import importlib
-
 from django.conf import settings
-from django.utils.html import escape
+from django.utils.html import format_html
+from django.utils.module_loading import import_string
 from draftjs_exporter.dom import DOM
 
 from wagtail import VERSION as wagtail_version
@@ -23,12 +22,11 @@ ANCHOR_TARGET_IDENTIFIER = "anchor-target"
 
 
 def render_span(attrs):
-    return '<span id="%s">' % escape(attrs["id"])
+    return format_html('<span id="{}">', attrs["id"])
 
 
 def render_a(attrs):
-    id_ = escape(attrs["id"])
-    return '<a href="#%s" id="%s" data-id="%s">' % (id_, id_, id_)
+    return format_html('<a href="#{id}" id="{id}" data-id="{id}">', id=attrs["id"])
 
 
 class AnchorIdentifierLinkHandler(LinkHandler):
@@ -40,9 +38,7 @@ class AnchorIdentifierLinkHandler(LinkHandler):
         if renderer is None:
             renderer = getattr(settings, "DRAFTAIL_ANCHORS_RENDERER", render_a)
             if isinstance(renderer, str):
-                module_path, *attr = renderer.rsplit(".", maxsplit=1)
-                module = importlib.import_module(module_path)
-                renderer = getattr(module, attr[0]) if attr else module
+                renderer = import_string(renderer)
             cls._renderer = renderer
         return renderer
 

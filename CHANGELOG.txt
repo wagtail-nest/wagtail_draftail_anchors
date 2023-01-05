@@ -5,3 +5,9 @@ Changelog
 ~~~~~~~~~~~~~~~~
 
 - Add Wagtail 3.0 compatibility - Tidiane Dia
+
+
+0.5 (5.01.2023)
+~~~~~~~~~~~~~~~~
+
+- Add the ability to create anchors as spans, or otherwise customise the output HTML element - Josh Munn

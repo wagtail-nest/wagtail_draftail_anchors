@@ -1,16 +1,22 @@
 from django.conf import settings
 
+from wagtail import VERSION as wagtail_version
 import wagtail.admin.rich_text.editors.draftail.features as draftail_features
 from wagtail.admin.rich_text.converters.html_to_contentstate import (
     BlockElementHandler,
     InlineStyleElementHandler,
 )
-from wagtail.core import hooks
+
+if wagtail_version >= (3, 0):
+    from wagtail import hooks
+else:
+    from wagtail.core import hooks
 
 from .rich_text import (
     AnchorBlockConverter,
     AnchorBlockHandler,
     AnchorIndentifierEntityElementHandler,
+    AnchorIdentifierLinkHandler,
     anchor_identifier_entity_decorator,
 )
 
@@ -129,3 +135,5 @@ def register_rich_text_anchor_identifier_feature(features):
             },
         },
     )
+
+    features.register_link_type(AnchorIdentifierLinkHandler)

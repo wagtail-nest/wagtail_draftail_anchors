@@ -11,6 +11,11 @@ Install using `pip`:
 pip install wagtail-draftail-anchors
 ```
 
+Run collectstatic, to make sure all relevant javascript and svg-files are picked up:
+```
+./manage.py collectstatic
+```
+
 Add `'wagtail_draftail_anchors'` to `INSTALLED_APPS` below `wagtail.admin`.
 
 Add `'anchor-identifier'` to the features of any rich text field where you have overridden the default feature list. The feature must be added before any heading('h1',...,'h6') feature:

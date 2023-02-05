@@ -1,11 +1,6 @@
-from django.conf import settings
-
 from wagtail import VERSION as wagtail_version
 import wagtail.admin.rich_text.editors.draftail.features as draftail_features
-from wagtail.admin.rich_text.converters.html_to_contentstate import (
-    BlockElementHandler,
-    InlineStyleElementHandler,
-)
+
 
 if wagtail_version >= (3, 0):
     from wagtail import hooks
@@ -19,8 +14,6 @@ from .rich_text import (
     AnchorIdentifierLinkHandler,
     anchor_identifier_entity_decorator,
 )
-
-from django.utils.html import format_html_join
 
 
 @hooks.register('register_icons')

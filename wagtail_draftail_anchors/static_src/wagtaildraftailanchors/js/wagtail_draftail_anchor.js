@@ -52,11 +52,15 @@ window.draftail.initEditor = initEditorOverride;
 
 class AnchorIdentifierSource extends React.Component {
   componentDidMount() {
-    const { editorState, entityType, onComplete } = this.props;
+    const { editorState, entityType, onComplete, entity } = this.props;
 
     const content = editorState.getCurrentContent();
 
-    const anchor = window.prompt("Anchor identifier:");
+    let anchor_id = "";
+    if (entity) {
+      anchor_id = entity.data.anchor;
+    }
+    const anchor = window.prompt("Anchor identifier:", anchor_id);
 
     // Uses the Draft.js API to create a new entity with the right data.
     if (anchor) {
@@ -97,7 +101,6 @@ const getAnchorIdentifierAttributes = (data) => {
 const AnchorIdentifier = (props) => {
   const { entityKey, contentState } = props;
   const data = contentState.getEntity(entityKey).getData();
-
   return <TooltipEntity {...props} {...getAnchorIdentifierAttributes(data)} />;
 };
 
@@ -107,7 +110,7 @@ window.draftail.registerPlugin({
   decorator: AnchorIdentifier,
 });
 
-class UneditableAnchorDecorator extends React.Component {
+class HeaderAnchorDecorator extends React.Component {
   constructor(props) {
     super(props);
 
@@ -115,6 +118,8 @@ class UneditableAnchorDecorator extends React.Component {
       showTooltipAt: null,
     };
 
+    this.onEdit = this.onEdit.bind(this);
+    this.onRemove = this.onRemove.bind(this);
     this.openTooltip = this.openTooltip.bind(this);
     this.closeTooltip = this.closeTooltip.bind(this);
   }
@@ -152,26 +157,74 @@ class UneditableAnchorDecorator extends React.Component {
     this.setState({ showTooltipAt: null });
   }
 
+  getBlock(editorState){
+    const block_key = editorState.getSelection().getFocusKey();
+    return this.props.contentState.getBlockForKey(block_key);
+  }
+
+  getData(editorState) {
+    const block = this.getBlock(editorState);
+    return block.getData();
+  }
+
+  onRemove(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.setState({ showTooltipAt: null });
+  }
+
+  onEdit(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const editorState = this.props.getEditorState();
+    const data = this.getData(editorState);
+    const block = this.getBlock(editorState);
+    const anchor = window.prompt('Anchor Link:', data.get("anchor") || data.get("id") || slugify(block.getText().toLowerCase()));
+
+    this.setState({ showTooltipAt: null });
+
+    let newEditorState = editorState;
+
+    let newData = new Map();
+    newData.set("anchor", anchor);
+
+    let content = editorState.getCurrentContent();
+    const selection = editorState.getSelection();
+    content = Modifier.mergeBlockData(content, selection, newData);
+
+    newEditorState = EditorState.push(
+      editorState,
+      content,
+      editorState.getLastChangeType()
+    );
+    newEditorState = EditorState.acceptSelection(newEditorState, selection);
+    this.props.setEditorState(newEditorState);
+  }
+
   render() {
     const children = this.props.children;
-    const anchor = `#${slugify(this.props.decoratedText.toLowerCase())}`;
+
     const { showTooltipAt } = this.state;
+
+    const editorState = this.props.getEditorState();
+    const data = this.getData(editorState);
+    const block = this.getBlock(editorState);
+    // try to get custom anchor first, then id and only then build it from the text
+    const anchor = data.get("anchor") || data.get("id") || slugify(block.getText().toLowerCase());
+    const url = `#${anchor}`;
 
     // Contrary to what JSX A11Y says, this should be a button but it shouldn't be focusable.
     /* eslint-disable springload/jsx-a11y/interactive-supports-focus */
     return (
       <a
         href=""
-        name={anchor}
         role="button"
         // Use onMouseUp to preserve focus in the text even after clicking.
         onMouseUp={this.openTooltip}
         className="TooltipEntity"
         data-draftail-trigger
       >
-        <sub>
-          <Icon name="anchor" className="TooltipEntity__icon" />
-        </sub>
         {children}
         {showTooltipAt && (
           <Portal
@@ -182,7 +235,22 @@ class UneditableAnchorDecorator extends React.Component {
             closeOnResize
           >
             <Tooltip target={showTooltipAt} direction="top">
-              {anchor}
+              <span className="Tooltip__link">
+                {url}
+              </span>
+              <button
+                className="button Tooltip__button"
+                onClick={this.onEdit}
+              >
+                Edit
+              </button>
+
+              <button
+                className="button button-secondary no Tooltip__button"
+                onClick={this.onRemove}
+              >
+                Cancel
+              </button>
             </Tooltip>
           </Portal>
         )}
@@ -201,7 +269,7 @@ registerDraftPlugin({
   decorators: [
     {
       strategy: headingStrategy,
-      component: UneditableAnchorDecorator,
+      component: HeaderAnchorDecorator,
     },
   ],
   onChange: (editorState, PluginFunctions) => {
@@ -217,9 +285,14 @@ registerDraftPlugin({
     let newEditorState = editorState;
     for (let [key, block] of blocks.entries()) {
       if (block.getType().includes("header")) {
-        let blockSelection = SelectionState.createEmpty(key);
+        const blockSelection = SelectionState.createEmpty(key);
+        const data = block.getData()
+        // do not change if there is a custom anchor
+        if (data.get("anchor")){
+          continue;
+        }
         let newData = new Map();
-        newData.set("anchor", slugify(block.getText().toLowerCase()));
+        newData.set("id", slugify(block.getText().toLowerCase()));
         content = Modifier.mergeBlockData(content, blockSelection, newData);
       }
     }

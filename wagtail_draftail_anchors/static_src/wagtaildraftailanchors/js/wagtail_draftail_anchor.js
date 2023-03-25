@@ -230,6 +230,25 @@ class HeaderAnchorDecorator extends React.Component {
     this.props.setEditorState(newEditorState);
   }
 
+  onRemove(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    this.setAnchor(null);
+  }
+
+  onEdit(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const editorState = this.props.getEditorState();
+    const block = this.getBlock(editorState);
+
+    const data = this.getData(editorState);
+    const anchor = window.prompt('Anchor Link:', data.get("anchor") || data.get("id") || slugify(block.getText().toLowerCase()));
+    this.setAnchor(anchor);
+  }
+
   render() {
     const children = this.props.children;
 

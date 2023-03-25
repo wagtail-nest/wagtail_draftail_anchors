@@ -167,23 +167,8 @@ class HeaderAnchorDecorator extends React.Component {
     return block.getData();
   }
 
-  onRemove(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    this.setState({ showTooltipAt: null });
-  }
-
-  onEdit(e) {
-    e.preventDefault();
-    e.stopPropagation();
-
+  setAnchor(anchor) {
     const editorState = this.props.getEditorState();
-    const data = this.getData(editorState);
-    const block = this.getBlock(editorState);
-    const anchor = window.prompt('Anchor Link:', data.get("anchor") || data.get("id") || slugify(block.getText().toLowerCase()));
-
-    this.setState({ showTooltipAt: null });
-
     let newEditorState = editorState;
 
     let newData = new Map();
@@ -200,6 +185,25 @@ class HeaderAnchorDecorator extends React.Component {
     );
     newEditorState = EditorState.acceptSelection(newEditorState, selection);
     this.props.setEditorState(newEditorState);
+  }
+
+  onRemove(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    this.setAnchor(null);
+  }
+
+  onEdit(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const editorState = this.props.getEditorState();
+    const block = this.getBlock(editorState);
+
+    const data = this.getData(editorState);
+    const anchor = window.prompt('Anchor Link:', data.get("anchor") || data.get("id") || slugify(block.getText().toLowerCase()));
+    this.setAnchor(anchor);
   }
 
   render() {
@@ -249,7 +253,7 @@ class HeaderAnchorDecorator extends React.Component {
                 className="button button-secondary no Tooltip__button"
                 onClick={this.onRemove}
               >
-                Cancel
+                Reset
               </button>
             </Tooltip>
           </Portal>

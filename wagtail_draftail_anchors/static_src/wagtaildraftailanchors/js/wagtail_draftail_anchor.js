@@ -111,15 +111,13 @@ const CopyAnchorButton = ({identifier}) => {
   const [didCopy, setDidCopy] = React.useState(false);
 
   const copyText = (event) => {
+    // Prevent the button click event from submitting the page form
     event.preventDefault();
     navigator.clipboard.writeText(identifier);
     setDidCopy(true);
   }
 
   const classes = `button button-small ${didCopy ? "button-secondary" : ""}`;
-
-  const buttonText = didCopy ? "Copied" : "Copy";
-
   return (
     <button
       class={classes}
@@ -129,7 +127,7 @@ const CopyAnchorButton = ({identifier}) => {
       role="button"
       onClick={copyText}
     >
-      {buttonText}
+      {didCopy ? "Copied" : "Copy"}
     </button>
   );
 }

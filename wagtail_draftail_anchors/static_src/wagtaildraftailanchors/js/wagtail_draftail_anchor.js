@@ -182,10 +182,6 @@ class UneditableAnchorDecorator extends React.Component {
 
     const slugified = slugify(this.props.decoratedText.toLowerCase());
     const anchor = `#${slugified}`;
-    const content = [
-      anchor,
-      <CopyAnchorButton identifier={slugified} />,
-    ];
     const { showTooltipAt } = this.state;
 
     // Contrary to what JSX A11Y says, this should be a button but it shouldn't be focusable.
@@ -213,7 +209,8 @@ class UneditableAnchorDecorator extends React.Component {
             closeOnResize
           >
             <Tooltip target={showTooltipAt} direction="top">
-              {content}
+	      {anchor}
+	      <CopyAnchorButton identifier={slugified} />
             </Tooltip>
           </Portal>
         )}

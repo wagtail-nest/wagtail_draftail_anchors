@@ -107,6 +107,33 @@ window.draftail.registerPlugin({
   decorator: AnchorIdentifier,
 });
 
+const CopyAnchorButton = ({identifier}) => {
+  const [didCopy, setDidCopy] = React.useState(false);
+
+  const copyText = (event) => {
+    event.preventDefault();
+    navigator.clipboard.writeText(identifier);
+    setDidCopy(true);
+  }
+
+  const classes = `button button-small ${didCopy ? "button-secondary" : ""}`;
+
+  const buttonText = didCopy ? "Copied" : "Copy";
+
+  return (
+    <button
+      class={classes}
+      style={{ marginLeft: "1rem" }}
+      aria-label="Copy anchor identifier"
+      aria-live="polite"
+      role="button"
+      onClick={copyText}
+    >
+      {buttonText}
+    </button>
+  );
+}
+
 class UneditableAnchorDecorator extends React.Component {
   constructor(props) {
     super(props);
@@ -154,7 +181,13 @@ class UneditableAnchorDecorator extends React.Component {
 
   render() {
     const children = this.props.children;
-    const anchor = `#${slugify(this.props.decoratedText.toLowerCase())}`;
+
+    const slugified = slugify(this.props.decoratedText.toLowerCase());
+    const anchor = `#${slugified}`;
+    const content = [
+      anchor,
+      <CopyAnchorButton identifier={slugified} />,
+    ];
     const { showTooltipAt } = this.state;
 
     // Contrary to what JSX A11Y says, this should be a button but it shouldn't be focusable.
@@ -182,7 +215,7 @@ class UneditableAnchorDecorator extends React.Component {
             closeOnResize
           >
             <Tooltip target={showTooltipAt} direction="top">
-              {anchor}
+              {content}
             </Tooltip>
           </Portal>
         )}

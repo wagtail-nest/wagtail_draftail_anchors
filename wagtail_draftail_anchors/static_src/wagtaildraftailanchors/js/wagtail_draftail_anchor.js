@@ -117,7 +117,7 @@ const CopyAnchorButton = ({identifier}) => {
     setDidCopy(true);
   }
 
-  const classes = `button button-small ${didCopy ? "button-secondary" : ""}`;
+  const classes = 'button button-small';
   return (
     <button
       class={classes}

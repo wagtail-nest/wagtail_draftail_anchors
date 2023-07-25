@@ -11,3 +11,9 @@ Changelog
 ~~~~~~~~~~~~~~~~
 
 - Add the ability to create anchors as spans, or otherwise customise the output HTML element - Josh Munn
+
+
+0.6 (25.07.2023)
+~~~~~~~~~~~~~~~~
+
+- Add copy button for anchor fragments - Josh Munn

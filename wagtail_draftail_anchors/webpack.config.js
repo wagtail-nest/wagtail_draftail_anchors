@@ -2,7 +2,11 @@
 const path = require('path');
 
 module.exports = {
-    entry: "./static_src/wagtaildraftailanchors/js/wagtail_draftail_anchor.js",
+    entry: path.resolve(__dirname, "./static_src/wagtaildraftailanchors/js/wagtail_draftail_anchor.js"),
+    output: {
+        path: path.resolve(__dirname, 'static/wagtaildraftailanchors/js/'),
+        filename: 'wagtail-draftail-anchor.js',
+    },
     module: {
       rules: [
         {
@@ -14,8 +18,4 @@ module.exports = {
         }
       ]
     },
-    output: {
-        path: path.resolve(__dirname, 'static/wagtaildraftailanchors/js/'),
-        filename: 'wagtail-draftail-anchor.js',
-    }
   };

@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     "wagtail.images",
     "wagtail.search",
     "wagtail.admin",
+    "wagtail_draftail_anchors",
     "wagtail",
     "modelcluster",
     "taggit",
@@ -164,3 +165,21 @@ WAGTAILSEARCH_BACKENDS = {
 # Base URL to use when referring to full URLs within the Wagtail admin backend -
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
 WAGTAILADMIN_BASE_URL = "http://example.com"
+
+# Rich text settings to remove unneeded features
+# We normally don't want editors to use the images
+# in the rich text editor, for example.
+# They should use the image stream block instead
+
+# RICH_TEXT_FEATURES_LIMITED = ["bold", "italic", "anchor-identifier", "link"]
+RICH_TEXT_FEATURES_LIMITED = ["bold", "italic", "link"]
+RICH_TEXT_FEATURES_LIMITED_WITH_LIST = RICH_TEXT_FEATURES_LIMITED + ["ol", "ul"]
+RICH_TEXT_FEATURES_BASIC = RICH_TEXT_FEATURES_LIMITED_WITH_LIST + ["document-link"]
+RICH_TEXT_FEATURES_DEFAULT = RICH_TEXT_FEATURES_BASIC + ["h3", "h4", "sentences"]
+
+WAGTAILADMIN_RICH_TEXT_EDITORS = {
+    "default": {
+        "WIDGET": "wagtail.admin.rich_text.DraftailRichTextArea",
+        "OPTIONS": {"features": RICH_TEXT_FEATURES_DEFAULT},
+    }
+}

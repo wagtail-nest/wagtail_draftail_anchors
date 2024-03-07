@@ -1,6 +1,11 @@
 Changelog
 =========
 
+Unreleased
+
+- Add trove classifiers for all wagtail versions
+- Remove unused imports
+
 0.4 (24.05.2022)
 ~~~~~~~~~~~~~~~~
 

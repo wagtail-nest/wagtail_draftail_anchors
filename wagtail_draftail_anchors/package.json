@@ -9,15 +9,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jacobtoppm/wagtail_draftail_anchors.git"
+    "url": "git+https://github.com/wagtail-nest/wagtail_draftail_anchors.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/jacobtoppm/wagtail_draftail_anchors/issues"
+    "url": "https://github.com/wagtail-nest/wagtail_draftail_anchors/issues"
   },
-  "homepage": "https://github.com/jacobtoppm/wagtail_draftail_anchors#readme",
+  "homepage": "https://github.com/wagtail-nest/wagtail_draftail_anchors#readme",
   "devDependencies": {
     "@babel/core": "^7.9.0",
     "@babel/preset-env": "^7.9.5",

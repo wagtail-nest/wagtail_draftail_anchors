@@ -9,47 +9,6 @@ const Portal = window.wagtail.components.Portal;
 const Tooltip = window.draftail.Tooltip;
 import slugify from "slugify";
 
-// Implement the new APIs.
-
-const DECORATORS = [];
-const CONTROLS = [];
-const DRAFT_PLUGINS = [];
-
-const registerDecorator = (decorator) => {
-  DECORATORS.push(decorator);
-  return DECORATORS;
-};
-
-const registerControl = (control) => {
-  CONTROLS.push(control);
-  return CONTROLS;
-};
-
-const registerDraftPlugin = (plugin) => {
-  DRAFT_PLUGINS.push(plugin);
-  return DRAFT_PLUGINS;
-};
-
-// Override the existing initEditor to hook the new APIs into it.
-// This works in Wagtail 2.0 but will definitely break in a future release.
-const initEditor = window.draftail.initEditor;
-
-const initEditorOverride = (selector, options, currentScript) => {
-  const overrides = {
-    decorators: DECORATORS.concat(options.decorators || []),
-    controls: CONTROLS.concat(options.controls || []),
-    plugins: DRAFT_PLUGINS.concat(options.plugins || []),
-  };
-
-  const newOptions = Object.assign({}, options, overrides);
-
-  return initEditor(selector, newOptions, currentScript);
-};
-
-window.draftail.registerControl = registerControl;
-window.draftail.registerDecorator = registerDecorator;
-window.draftail.initEditor = initEditorOverride;
-
 class AnchorIdentifierSource extends React.Component {
   componentDidMount() {
     const { editorState, entityType, onComplete } = this.props;
@@ -225,7 +184,8 @@ function headingStrategy(contentBlock, callback, contentState) {
   }
 }
 
-registerDraftPlugin({
+window.draftail.registerPlugin({
+  type: "ANCHOR-IDENTIFIER",
   decorators: [
     {
       strategy: headingStrategy,
@@ -259,4 +219,4 @@ registerDraftPlugin({
     newEditorState = EditorState.acceptSelection(newEditorState, selection);
     return newEditorState;
   },
-});
+}, 'plugins');

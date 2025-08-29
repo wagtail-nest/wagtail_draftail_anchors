@@ -22,9 +22,9 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
         "Framework :: Wagtail :: 2",
-        "Framework :: Wagtail :: 3"
-        "Framework :: Wagtail :: 4"
-        "Framework :: Wagtail :: 5"
+        "Framework :: Wagtail :: 3",
+        "Framework :: Wagtail :: 4",
+        "Framework :: Wagtail :: 5",
         "Framework :: Wagtail :: 6",
     ],
     python_requires=">=3.6",

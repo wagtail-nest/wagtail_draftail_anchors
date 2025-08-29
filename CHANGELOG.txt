@@ -22,3 +22,9 @@ Unreleased
 ~~~~~~~~~~~~~~~~
 
 - Add copy button for anchor fragments - Josh Munn
+
+
+0.6.1 (29.08.2025)
+~~~~~~~~~~~~~~~~
+
+- Add missing server-side registration of the feature as a plugin - Thibaud Colas

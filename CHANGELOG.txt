@@ -28,3 +28,9 @@ Unreleased
 ~~~~~~~~~~~~~~~~
 
 - Add missing server-side registration of the feature as a plugin - Thibaud Colas
+
+
+0.6.2 (29.08.2025)
+~~~~~~~~~~~~~~~~
+
+- Fix client-side registration of the feature as a plugin - Thibaud Colas

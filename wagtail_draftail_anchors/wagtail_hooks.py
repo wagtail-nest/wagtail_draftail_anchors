@@ -15,6 +15,22 @@ from .rich_text import (
 )
 
 
+class AnchorFeature(draftail_features.EntityFeature):
+    """Registers anchors both as entities and plugins."""
+
+    def __init__(self, data, **kwargs):
+        super().__init__(data, **kwargs)
+        self.js = ["wagtaildraftailanchors/js/wagtail-draftail-anchor.js"]
+
+    def construct_options(self, options):
+        if "plugins" not in options:
+            options["plugins"] = []
+
+        options["plugins"].append(self.data)
+
+        return super().construct_options(options)
+
+
 @hooks.register('register_icons')
 def register_icons(icons):
     icons.append('wagtaildraftailanchors/icons/anchor.svg')
@@ -41,10 +57,7 @@ def register_rich_text_anchor_identifier_feature(features):
     features.register_editor_plugin(
         "draftail",
         feature_name,
-        draftail_features.EntityFeature(
-            control,
-            js=["wagtaildraftailanchors/js/wagtail-draftail-anchor.js"],
-        ),
+        AnchorFeature(control),
     )
 
     features.register_converter_rule(

@@ -1,0 +1,7 @@
+/* Global styles to just make it easier to work with testing anchors by making the page longer */
+body {
+    margin: 20px;
+    font-family: Arial, sans-serif;
+    font-size: x-large;
+    line-height: 1.6;
+}

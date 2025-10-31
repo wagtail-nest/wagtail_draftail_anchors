@@ -3,6 +3,13 @@ Changelog
 
 Unreleased
 
+- Drop support for Wagtail <7.0; require Wagtail >=7.0.
+- Drop support for Python <3.10; require Python >=3.10.
+- Remove legacy import conditionals now that older Wagtail versions are not supported.
+- Add trove classifier for Wagtail 7 and explicit Python 3.10–3.14 classifiers.
+
+0.7.0 (16.10.2025)
+
 - Add trove classifiers for all wagtail versions
 - Remove unused imports
 

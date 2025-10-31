@@ -10,6 +10,33 @@ npm-debug.log*
 /.cache/
 /.pytest_cache/
 
+# Python build artifacts
+build/
+dist/
+*.egg-info/
+.eggs/
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+virtualenv/
+
+# Tool caches
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+coverage.xml
+.coverage*
+htmlcov/
+.tox/
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
 ### Editor files
 .idea/
 *.iml

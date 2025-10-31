@@ -1,10 +1,5 @@
-from wagtail import VERSION as wagtail_version
 import wagtail.admin.rich_text.editors.draftail.features as draftail_features
-
-if wagtail_version >= (3, 0):
-    from wagtail import hooks
-else:
-    from wagtail.core import hooks
+from wagtail import hooks
 
 from .rich_text import (
     AnchorBlockConverter,

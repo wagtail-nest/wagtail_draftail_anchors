@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "wagtail-draftail-anchors"
+version = "0.7.0"
+description = "A Draftail extension to add anchor identifiers to rich text"
+readme = "README.md"
+authors = [
+  { name = "Wagtail Core Team", email = "hello@wagtail.org" },
+]
+license = { text = "MIT" }
+requires-python = ">=3.10"
+keywords = ["wagtail", "draftail", "anchors", "rich-text"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Framework :: Wagtail :: 7",
+]
+dependencies = [
+  "django>=4.2",
+  "wagtail>=7.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/wagtail-nest/wagtail_draftail_anchors"
+Source = "https://github.com/wagtail-nest/wagtail_draftail_anchors"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = ["wagtail_draftail_anchors"]
